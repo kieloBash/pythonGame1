@@ -3,7 +3,7 @@ import random
 
 GAME_WIDTH = 700
 GAME_HEIGHT = 700
-SPEED = 50
+SPEED = 100
 SPACE_SIZE = 50
 BODY_PARTS = 3
 SNAKE_COLOR = '#00FF00'
@@ -48,12 +48,27 @@ def next_turn(snake,food):
         x -= SPACE_SIZE
     elif direction == 'right':
         x += SPACE_SIZE
-        
+
+    if x > GAME_WIDTH-SPACE_SIZE:
+        x = 0
+    elif x < 0:
+        x = GAME_WIDTH-SPACE_SIZE
+    elif y < 0:
+        y = GAME_HEIGHT-SPACE_SIZE
+    elif y > GAME_HEIGHT-SPACE_SIZE:
+        y = 0
+    
     snake.coordinates.insert(0, (x,y))
     
     square = canvas.create_rectangle(x,y , x+SPACE_SIZE, y+SPACE_SIZE, fill=SNAKE_COLOR)
     
     snake.squares.insert(0,square)
+    
+    if x == food.coordinates[0] and y == food.coordinates[1]:
+        print('kain')
+        
+    
+        
     
     del snake.coordinates[-1]
     
