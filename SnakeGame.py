@@ -101,7 +101,6 @@ def check_collisions(snake):
     x,y = snake.coordinates[0]
     
     if x > GAME_WIDTH-SPACE_SIZE or x < 0 or y < 0 or y > GAME_HEIGHT-SPACE_SIZE:
-        print('GAME OVER')
         return True
 
     
@@ -112,7 +111,10 @@ def check_collisions(snake):
     return False
    
 def game_over():
-    pass
+    
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, 
+                       font=('consolas',70), text="GAME OVER", fill="red", tags="gameover")
 
 
 window = Tk()
