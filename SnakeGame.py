@@ -121,6 +121,8 @@ def new_game():
     canvas.delete(ALL)
     global score
     score = 0
+    label.config(text='Score:{}'.format(score))
+    
     global direction
     direction = 'down'
     
