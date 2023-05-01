@@ -111,11 +111,27 @@ def check_collisions(snake):
     return False
    
 def game_over():
-    
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, 
+    canvas.create_text(canvas.winfo_width()/2, (canvas.winfo_height()/2)-20, 
                        font=('consolas',70), text="GAME OVER", fill="red", tags="gameover")
+    canvas.create_text((canvas.winfo_width()/2), (canvas.winfo_height()/2)+50, 
+                       font=('consolas',20), text="Press Enter Key to start new game", fill="red", tags="gameover")
 
+def new_game():
+    canvas.delete(ALL)
+    global score
+    score = 0
+    global direction
+    direction = 'down'
+    
+    global snake
+    snake = Snake()
+
+    global food
+    food = Food()
+
+    next_turn(snake,food)
+    
 
 window = Tk()
 window.title('Snake Game')
@@ -145,17 +161,9 @@ window.bind('<Left>', lambda event: change_direction('left'))
 window.bind('<Right>', lambda event: change_direction('right'))
 window.bind('<Down>', lambda event: change_direction('down'))
 window.bind('<Up>', lambda event: change_direction('up'))
+window.bind('<Return>', lambda event: new_game())
 snake = Snake()
 food = Food()
 
 next_turn(snake,food)
-
-
-
-
-
-
-
-
-
 window.mainloop()
