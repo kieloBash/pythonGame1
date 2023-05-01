@@ -65,24 +65,27 @@ def next_turn(snake,food):
     snake.squares.insert(0,square)
     
     if x == food.coordinates[0] and y == food.coordinates[1]:
-        print('kain')
+        global score
+        score += 1
         
-    
+        label.config(text='Score:{}'.format(score))
         
+        canvas.delete("food")
+        
+        food = Food()
     
-    del snake.coordinates[-1]
-    
-    canvas.delete(snake.squares[-1])
-    
-    del snake.squares[-1]
+    else:  
+        del snake.coordinates[-1]
+        
+        canvas.delete(snake.squares[-1])
+        
+        del snake.squares[-1]
         
     window.after(SPEED, next_turn,snake, food)
     
 def change_direction(new_direction):
     
     global direction
-    print(direction)
-    print(new_direction)
     
     if new_direction == 'left':
         if direction != 'right':
@@ -136,6 +139,7 @@ snake = Snake()
 food = Food()
 
 next_turn(snake,food)
+
 
 
 
