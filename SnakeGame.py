@@ -37,7 +37,7 @@ class Food:
         canvas.create_oval(x, y, x+SPACE_SIZE, y+SPACE_SIZE, fill=FOOD_COLOR, tag="food")
     
 
-def next_turn(snake,food):
+def next_turn(snake,food,speed):  
     x, y = snake.coordinates[0]
     
     if direction == 'up':
@@ -72,10 +72,15 @@ def next_turn(snake,food):
         
         del snake.squares[-1]
         
+    if score == 5:
+        speed = 80
+    elif score == 10:
+        speed = 50
+        
     if check_collisions(snake):
         game_over()
     else:
-        window.after(SPEED, next_turn,snake, food)  
+        window.after(speed, next_turn, snake, food, speed)  
     
 def change_direction(new_direction):
     
@@ -112,10 +117,12 @@ def check_collisions(snake):
    
 def game_over():
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width()/2, (canvas.winfo_height()/2)-20, 
+    canvas.create_text(canvas.winfo_width()/2, (canvas.winfo_height()/2)-70, 
                        font=('consolas',70), text="GAME OVER", fill="red", tags="gameover")
-    canvas.create_text((canvas.winfo_width()/2), (canvas.winfo_height()/2)+50, 
+    canvas.create_text((canvas.winfo_width()/2), (canvas.winfo_height()/2)-10, 
                        font=('consolas',20), text="Press Enter Key to start new game", fill="red", tags="gameover")
+    canvas.create_text((canvas.winfo_width()/2), (canvas.winfo_height()/2)+40, 
+                       font=('consolas',30), text="You scored {}".format(score), fill=SNAKE_COLOR, tags="gameover")
 
 def new_game():
     canvas.delete(ALL)
@@ -132,7 +139,7 @@ def new_game():
     global food
     food = Food()
 
-    next_turn(snake,food)
+    next_turn(snake,food,SPEED)
     
 
 window = Tk()
@@ -167,5 +174,5 @@ window.bind('<Return>', lambda event: new_game())
 snake = Snake()
 food = Food()
 
-next_turn(snake,food)
+next_turn(snake,food,SPEED)
 window.mainloop()
