@@ -49,15 +49,6 @@ def next_turn(snake,food):
     elif direction == 'right':
         x += SPACE_SIZE
 
-    if x > GAME_WIDTH-SPACE_SIZE:
-        x = 0
-    elif x < 0:
-        x = GAME_WIDTH-SPACE_SIZE
-    elif y < 0:
-        y = GAME_HEIGHT-SPACE_SIZE
-    elif y > GAME_HEIGHT-SPACE_SIZE:
-        y = 0
-    
     snake.coordinates.insert(0, (x,y))
     
     square = canvas.create_rectangle(x,y , x+SPACE_SIZE, y+SPACE_SIZE, fill=SNAKE_COLOR)
@@ -81,7 +72,10 @@ def next_turn(snake,food):
         
         del snake.squares[-1]
         
-    window.after(SPEED, next_turn,snake, food)
+    if check_collisions(snake):
+        game_over()
+    else:
+        window.after(SPEED, next_turn,snake, food)  
     
 def change_direction(new_direction):
     
@@ -102,7 +96,21 @@ def change_direction(new_direction):
     elif new_direction == 'down':
         if direction != 'up':
             direction = new_direction                 
+
+def check_collisions(snake):
+    x,y = snake.coordinates[0]
     
+    if x > GAME_WIDTH-SPACE_SIZE or x < 0 or y < 0 or y > GAME_HEIGHT-SPACE_SIZE:
+        print('GAME OVER')
+        return True
+
+    
+    for body_part in snake.coordinates[1:]:
+        if x == body_part[0] and y == body_part[1]:
+            return True
+
+    return False
+   
 def game_over():
     pass
 
